@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-demo
+  labels:
+    app: web-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-demo
+  template:
+    metadata:
+      labels:
+        app: web-demo
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: web
+          image: nginx:1.30.6-alpine3.24@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+      volumes:
+        - name: web-content
+          configMap:
+            name: web-content
