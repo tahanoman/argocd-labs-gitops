@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gitops-labs
+  namespace: argocd
+spec:
+  description: Web application exercises for the Argo CD labs
+  sourceRepos:
+    - "https://github.com/tahanoman/argocd-labs-gitops.git"
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: gitops-demo
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: Pod
+    - group: apps
+      kind: Deployment
+    - group: apps
+      kind: ReplicaSet

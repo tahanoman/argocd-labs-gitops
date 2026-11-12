@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: web-demo
+  namespace: argocd
+spec:
+  project: gitops-labs
+  source:
+    repoURL: "https://github.com/tahanoman/argocd-labs-gitops.git"
+    targetRevision: main
+    path: apps/web
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-demo
+  syncPolicy: {}
