@@ -16,7 +16,7 @@ spec:
     namespace: gitops-demo
   syncPolicy:
     automated:
-      enabled: true
+      enabled: false
       prune: true
       selfHeal: true
       allowEmpty: false
