@@ -14,11 +14,4 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: gitops-demo
-  syncPolicy:
-    automated:
-      enabled: false
-      prune: true
-      selfHeal: true
-      allowEmpty: false
-    syncOptions:
-      - PruneLast=true
+  syncPolicy: {}
