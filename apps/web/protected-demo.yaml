@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: protected-demo
+data:
+  purpose: Temporary resource for the pruning protection exercise
