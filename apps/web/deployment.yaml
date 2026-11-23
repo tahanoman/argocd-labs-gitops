@@ -6,7 +6,6 @@ metadata:
     app: web-demo
 spec:
   replicas: 1
-  progressDeadlineSeconds: 60
   selector:
     matchLabels:
       app: web-demo
@@ -25,7 +24,7 @@ spec:
               containerPort: 80
           readinessProbe:
             httpGet:
-              path: /not-ready
+              path: /
               port: http
             initialDelaySeconds: 2
             periodSeconds: 5
