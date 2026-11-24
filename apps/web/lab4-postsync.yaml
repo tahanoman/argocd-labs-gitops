@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: web-demo-smoke-test
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 180
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      containers:
+        - name: smoke-test
+          image: nginx:1.30.6-alpine3.24@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              for attempt in 1 2 3 4 5 6; do
+                if page="$(wget -q -T 3 -O - http://web-demo/)" &&
+                   printf '%s\n' "$page" | grep -Fq 'Release: v2'; then
+                  echo "PostSync passed: web-demo serves Release: v2"
+                  exit 0
+                fi
+                echo "Attempt $attempt: waiting for Release: v2"
+                sleep 5
+              done
+              echo "PostSync failed: Release: v2 was not served"
+              exit 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

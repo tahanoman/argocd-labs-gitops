@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: web-demo-preflight
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 180
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      containers:
+        - name: preflight
+          image: nginx:1.30.6-alpine3.24@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              if [ "$PREFLIGHT_RESULT" = pass ]; then
+                echo "PreSync passed"
+              else
+                echo "PreSync blocked the release"
+                exit 1
+              fi
+          env:
+            - name: PREFLIGHT_RESULT
+              value: "fail"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
