@@ -11,8 +11,6 @@ spec:
       app: web-demo
   template:
     metadata:
-      annotations:
-        release: v2
       labels:
         app: web-demo
     spec:
@@ -21,12 +19,6 @@ spec:
         - name: web
           image: nginx:1.30.6-alpine3.24@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
           imagePullPolicy: IfNotPresent
-          env:
-            - name: LAB_RELEASE
-              valueFrom:
-                configMapKeyRef:
-                  name: web-content
-                  key: release
           ports:
             - name: http
               containerPort: 80

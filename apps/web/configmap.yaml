@@ -4,10 +4,7 @@ metadata:
   name: web-content
   labels:
     app: web-demo
-  annotations:
-    argocd.argoproj.io/sync-wave: "-2"
 data:
-  release: v2
   index.html: |
     <!doctype html>
     <html lang="en">
@@ -19,7 +16,7 @@ data:
       <body>
         <h1>Hello from GitOps</h1>
         <p>Application: web-demo</p>
-        <p>Release: v2</p>
+        <p>Release: v1</p>
         <p>This page is deployed from Git by Argo CD.</p>
       </body>
     </html>
