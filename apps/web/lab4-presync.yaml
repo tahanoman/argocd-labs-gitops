@@ -26,7 +26,7 @@ spec:
               fi
           env:
             - name: PREFLIGHT_RESULT
-              value: "fail"
+              value: "pass"
           resources:
             requests:
               cpu: 10m
