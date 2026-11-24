@@ -22,3 +22,5 @@ spec:
       kind: Deployment
     - group: apps
       kind: ReplicaSet
+    - group: batch
+      kind: Job
