@@ -11,8 +11,6 @@ spec:
       app: web-demo
   template:
     metadata:
-      annotations:
-        lab5-rollout: respect-ignore
       labels:
         app: web-demo
     spec:

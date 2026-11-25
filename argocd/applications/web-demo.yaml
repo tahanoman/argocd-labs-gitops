@@ -14,13 +14,4 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: gitops-demo
-  ignoreDifferences:
-    - group: apps
-      kind: Deployment
-      name: web-demo
-      namespace: gitops-demo
-      jsonPointers:
-        - /spec/replicas
-  syncPolicy:
-    syncOptions:
-      - RespectIgnoreDifferences=true
+  syncPolicy: {}
