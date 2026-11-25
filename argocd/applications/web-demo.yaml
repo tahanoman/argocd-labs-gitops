@@ -21,4 +21,6 @@ spec:
       namespace: gitops-demo
       jsonPointers:
         - /spec/replicas
-  syncPolicy: {}
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true
