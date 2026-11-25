@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: web-envs
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - env: dev
+            namespace: dev
+          - env: staging
+            namespace: staging
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  template:
+    metadata:
+      name: 'web-envs-{{ .env }}'
+    spec:
+      project: gitops-envs
+      source:
+        repoURL: "https://github.com/tahanoman/argocd-labs-gitops.git"
+        targetRevision: main
+        path: apps/web
+        directory:
+          recurse: false
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+      syncPolicy: {}
