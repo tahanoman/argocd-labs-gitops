@@ -9,10 +9,12 @@ spec:
   selector:
     matchLabels:
       app: web-demo
+      lab7-selector: changed
   template:
     metadata:
       labels:
         app: web-demo
+        lab7-selector: changed
     spec:
       automountServiceAccountToken: false
       containers:
